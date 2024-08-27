@@ -8,7 +8,7 @@ const Home = () => {
   useEffect(() => {
     const fetchEvents = async () => {
      try{
-      const res = await axios.get('https://local-event-finder-tarak.onrender.com/events');//updated url
+      const res = await axios.get('https://local-event-finder-tarak.onrender.com/events');
       console.log("Response ",res)
       alert("Response "+res.data)
       setEvents(res.data);
@@ -16,7 +16,7 @@ const Home = () => {
      catch(err)
      {
       console.log("Error ",err)
-      alert("Something went wrong",error )
+      alert("Something went wrong",err )
      }
     };
     fetchEvents();
