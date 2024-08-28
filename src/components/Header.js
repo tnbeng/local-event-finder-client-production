@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { logout } from '../Service/authService';
 
 const Header = ({ user, setUser }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('userInfo');
+    logout();
     setUser(null);
     navigate('/login');
   };
@@ -18,9 +19,14 @@ const Header = ({ user, setUser }) => {
             <Link to="/" className="hover:bg-blue-700 px-3 py-2 rounded">Home</Link>
           </li>
           {user && (
+           <>
             <li>
               <Link to="/create-event" className="hover:bg-blue-700 px-3 py-2 rounded">Create Event</Link>
             </li>
+            <li>
+            <Link to="/profile" className="hover:bg-blue-700 px-3 py-2 rounded">Profile</Link>
+            </li>
+           </>
           )}
           {!user ? (
             <>

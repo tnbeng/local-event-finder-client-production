@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { baseURL } from '../config';
+import { login } from '../Service/authService';
 
 
 const Login = ({appState}) => {
@@ -10,9 +9,8 @@ const Login = ({appState}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${baseURL}/api/users/login`, { email, password });
-      localStorage.setItem('userInfo', JSON.stringify(res.data));
-      appState(res.data);
+      const res = await login(email, password);
+      appState(res);
       alert('Logged in successfully');
     } catch (error) {
       alert('Invalid credentials');
@@ -55,3 +53,10 @@ const Login = ({appState}) => {
 };
 
 export default Login;
+
+
+
+
+
+
+

@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { baseURL } from '../config';
+import { register } from '../Service/authService';
 
 const Register = ({appState}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       console.log("Name ",name)
-      const res = await axios.post(`${baseURL}/api/users/register`, { name, email, password });
-      console.log("Register response ",res)
-      localStorage.setItem('userInfo', JSON.stringify(res.data));
-      appState(res.data);
+      const userData = await register(name, email, password);
+      console.log("Register response ")
+      appState(userData);
       alert('Registered successfully');
     } catch (error) {
       alert('Error registering user '+error);
@@ -67,3 +66,6 @@ const Register = ({appState}) => {
 };
 
 export default Register;
+
+
+

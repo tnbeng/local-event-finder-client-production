@@ -19,8 +19,9 @@ const Home = () => {
         date,
         location
       }).toString();
-
+       console.log("Searched .... ",keyword)
       const res = await axios.get(`${baseURL}/api/events/search?${query}`);
+      console.log("searched data",res.data)
       setEvents(res.data);
     } catch (err) {
       console.log("Error ", err);
