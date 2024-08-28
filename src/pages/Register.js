@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { baseURL } from '../config';
 
 const Register = ({appState}) => {
   const [name, setName] = useState('');
@@ -10,7 +11,7 @@ const Register = ({appState}) => {
     e.preventDefault();
     try {
       console.log("Name ",name)
-      const res = await axios.post('/api/users/register', { name, email, password });
+      const res = await axios.post(`${baseURL}/api/users/register`, { name, email, password });
       console.log("Register response ",res)
       localStorage.setItem('userInfo', JSON.stringify(res.data));
       appState(res.data);

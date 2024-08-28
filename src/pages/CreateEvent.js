@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { baseURL } from '../config';
 
 const CreateEvent = () => {
   const [title, setTitle] = useState('');
@@ -21,7 +22,7 @@ const CreateEvent = () => {
       },
     };
     
-    await axios.post('/api/events', newEvent, config);
+    await axios.post(`${baseURL}/api/events`, newEvent, config);
     alert("Event creation successfull")
     } catch (error) {
        if(error.response.status===401)

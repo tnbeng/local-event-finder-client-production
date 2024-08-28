@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { baseURL } from '../config';
+
 
 const Login = ({appState}) => {
   const [email, setEmail] = useState('');
@@ -8,7 +10,7 @@ const Login = ({appState}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/users/login', { email, password });
+      const res = await axios.post(`${baseURL}/api/users/login`, { email, password });
       localStorage.setItem('userInfo', JSON.stringify(res.data));
       appState(res.data);
       alert('Logged in successfully');
