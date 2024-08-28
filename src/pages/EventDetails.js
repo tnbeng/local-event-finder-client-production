@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { baseURL } from '../config';
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -8,7 +9,7 @@ const EventDetails = () => {
 
   useEffect(() => {
     const fetchEvent = async () => {
-      const res = await axios.get(`/api/events/${id}`);
+      const res = await axios.get(`${baseURL}/api/events/${id}`);
       setEvent(res.data);
     };
     fetchEvent();
