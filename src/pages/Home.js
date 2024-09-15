@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Event from '../components/Event';
 import { baseURL } from '../config';
+import { searchEvents } from '../Service/eventService';
+import ActionMessage from '../components/ActionMessage';
 
 const Home = () => {
   const [events, setEvents] = useState([]);
@@ -9,6 +11,7 @@ const Home = () => {
   const [category, setCategory] = useState('');
   const [date, setDate] = useState('');
   const [location, setLocation] = useState('');
+  const [message, setMessage]=useState('')
 
   // Function to fetch events with search and filter criteria
   const fetchEvents = async () => {
@@ -19,13 +22,10 @@ const Home = () => {
         date,
         location
       }).toString();
-       console.log("Searched .... ",keyword)
-      const res = await axios.get(`${baseURL}/api/events/search?${query}`);
-      console.log("searched data",res.data)
-      setEvents(res.data);
+      const data = await searchEvents(query);
+      setEvents(data);
     } catch (err) {
-      console.log("Error ", err);
-      alert("Something went wrong", err);
+      setMessage(err);
     }
   };
 
@@ -35,6 +35,7 @@ const Home = () => {
 
   return (
     <div className="container mx-auto p-4">
+      {message && <ActionMessage message={message} setMessage={setMessage}/>}
       <h1 className="text-2xl font-bold mb-4">Upcoming Events</h1>
 
       {/* Search and Filter Form */}

@@ -4,14 +4,16 @@ import { login } from '../Service/authService';
 
 
 const Login = ({appState}) => {
+  const navigator=useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await login(email, password);
-      appState(res);
-      alert('Logged in successfully');
+      const user = await login(email, password);
+      console.log("Response data in login", user)
+      appState(user);
+      navigator("/");
     } catch (error) {
       alert('Invalid credentials');
     }

@@ -4,7 +4,7 @@ import { baseURL } from '../config';
 // Create a new event
 export const createEvent = async (title, description, date, location, category) => {
     try {
-        const token = localStorage.getItem('userToken');
+        const token = localStorage.getItem('userInfo');
         const response = await axios.post(`${baseURL}/api/events`, 
             { title, description, date, location, category }, 
             { headers: { Authorization: `Bearer ${token}` } }
@@ -16,7 +16,7 @@ export const createEvent = async (title, description, date, location, category) 
     }
 };
 
-// Get all events
+// Get all events // Not required currently since achiving this functionality by searchEvents when proving empty object
 export const getEvents = async () => {
     try {
         const response = await axios.get(`${baseURL}/api/events`);
@@ -41,7 +41,7 @@ export const getEvent = async (eventId) => {
 // Update an event
 export const updateEvent = async (eventId, title, description, date, location, category) => {
     try {
-        const token = localStorage.getItem('userToken');
+        const token = localStorage.getItem('userInfo');
         const response = await axios.put(`${baseURL}/api/events/${eventId}`, 
             { title, description, date, location, category },
             { headers: { Authorization: `Bearer ${token}` } }
@@ -56,7 +56,7 @@ export const updateEvent = async (eventId, title, description, date, location, c
 // Delete an event
 export const deleteEvent = async (eventId) => {
     try {
-        const token = localStorage.getItem('userToken');
+        const token = localStorage.getItem('userInfo');
         const response = await axios.delete(`${baseURL}/api/events/${eventId}`, 
             { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -68,11 +68,9 @@ export const deleteEvent = async (eventId) => {
 };
 
 // Search events
-export const searchEvents = async (keyword, category, date, location) => {
+export const searchEvents = async (query) => {
     try {
-        const response = await axios.get(`${baseURL}/api/events/search`, {
-            params: { keyword, category, date, location }
-        });
+        const response = await axios.get(`${baseURL}/api/events/search?${query}`);
         return response.data;
     } catch (error) {
         console.error("Error searching events:", error); // Added error handling
