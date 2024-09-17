@@ -19,7 +19,7 @@ const App = () => {
     <UserProvider>
       <Router>
         <Header />
-        <main className=''>
+        <main>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
