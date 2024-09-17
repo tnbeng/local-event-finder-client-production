@@ -27,7 +27,7 @@ const EventDetails = () => {
     // </div>
     <div className="min-h-screen bg-gray-100">
       {/* Hero Section */}
-      <div className="relative bg-cover bg-center h-96" style={{ backgroundImage: `url(${event.image || 'https://via.placeholder.com/1200x500'})` }}>
+      <div className="relative bg-cover bg-center h-96" style={{ backgroundImage: `url(${event.imageUrl || 'https://via.placeholder.com/1200x500'})` }}>
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative container mx-auto px-4 flex flex-col justify-center items-center h-full text-center text-white">
           <h1 className="text-4xl font-bold mb-4">{event.title}</h1>

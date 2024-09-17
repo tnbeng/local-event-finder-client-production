@@ -6,7 +6,7 @@ const Event = ({ event }) => {
     <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
       {/* Cover Image */}
       <div className="relative">
-        <img src={event.image || 'https://via.placeholder.com/400x250'} alt={event.title} className="w-full h-64 object-cover" />
+        <img src={event.imageUrl || 'https://via.placeholder.com/400x250'} alt={event.title} className="w-full h-64 object-cover" />
         <div className="absolute bottom-0 left-0 bg-gradient-to-t from-black via-transparent to-transparent w-full p-4">
           <h2 className="text-2xl font-bold text-white">{event.title}</h2>
           <p className="text-sm text-gray-300">{event.date}</p>

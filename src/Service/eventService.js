@@ -2,12 +2,15 @@ import axios from 'axios';
 import { baseURL } from '../config';
 
 // Create a new event
-export const createEvent = async (title, description, date, location, category) => {
+export const createEvent = async (formData) => {
     try {
         const token = localStorage.getItem('userToken');
         const response = await axios.post(`${baseURL}/api/events`, 
-            { title, description, date, location, category }, 
-            { headers: { Authorization: `Bearer ${token}` } }
+            formData, 
+            { headers: {
+                 Authorization: `Bearer ${token}`,
+                 'Content-Type': 'multipart/form-data'
+            } }
         );
         return response.data;
     } catch (error) {

@@ -9,11 +9,25 @@ const CreateEvent = () => {
     const [category, setCategory] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [image, setImage] = useState(null);
+
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0]);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const formData = new FormData();
+    
+        formData.append('title', title);
+        formData.append('description', description);
+        formData.append('date', date);
+        formData.append('location', location);
+        formData.append('category', category);
+        formData.append('image', image); // Add the image file to FormData
+    
         try {
-            await createEvent(title, description, date, location, category);
+            const response = await createEvent(formData); // Send form data
             setMessage('Event created successfully!');
             // Reset form fields after successful creation
             setTitle('');
@@ -21,11 +35,13 @@ const CreateEvent = () => {
             setDate('');
             setLocation('');
             setCategory('');
+            setImage(null); // Reset the image
         } catch (err) {
-            setError('Error creating event. Please try again.');
+            setMessage(err.response?.data?.message || 'Error creating event');
             console.error(err);
         }
     };
+    
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 flex flex-col items-center p-6">
@@ -86,6 +102,16 @@ const CreateEvent = () => {
                             onChange={(e) => setCategory(e.target.value)}
                             className="mt-1 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                             required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="image" className="block text-gray-700">Image</label>
+                        <input
+                            id="image"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="mt-1 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                         />
                     </div>
                     <button

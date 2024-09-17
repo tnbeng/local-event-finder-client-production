@@ -3,7 +3,7 @@ import { baseURL } from '../config';
 
 
 export const register = async (name, email, password) => {
-    const response = await axios.post(baseURL+'/api/users/register', { name, email, password });
+    const response = await axios.post(baseURL + '/api/users/register', { name, email, password });
     if (response.data.token) {
         localStorage.setItem('userToken', response.data.token);
     }
@@ -26,30 +26,30 @@ export const getUserProfile = async () => {
     return response.data;
 };
 
-export const getAllUser=async () => {
+export const getAllUser = async () => {
     const token = localStorage.getItem('userToken');
-    const response = await axios.get(baseURL+'/api/users/all',{
-        headers:{Authorization:`Bearer ${token}`}
+    const response = await axios.get(baseURL + '/api/users/all', {
+        headers: { Authorization: `Bearer ${token}` }
     })
     return response.data;
 }
 
-export const updateUserProfile = async (name, email) => {
+export const updateUserProfile = async (name, email,image) => {
     const token = localStorage.getItem('userToken');
-    const response = await axios.put(baseURL + '/api/users/profile', { name, email }, {
+    const response = await axios.put(baseURL + '/api/users/profile',
+        { name, email, image },
+        { headers: {Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data'}}
+    );
+    return response.data;
+};
+
+export const deleteOneUser = async (id) => {
+    const token = localStorage.getItem('userToken');
+    const response = await axios.delete(baseURL + `/api/users/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
     });
     return response.data;
 };
 
-export const deleteOneUser = async (id) => {
-    console.log("id===",id)
-    const token = localStorage.getItem('userToken');
-    const response = await axios.delete(baseURL + `/api/users/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-    });
-    console.log("--------",response)
-    return response.data;
-};
 
 
