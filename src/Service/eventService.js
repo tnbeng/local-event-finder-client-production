@@ -4,7 +4,7 @@ import { baseURL } from '../config';
 // Create a new event
 export const createEvent = async (title, description, date, location, category) => {
     try {
-        const token = localStorage.getItem('userInfo');
+        const token = localStorage.getItem('userToken');
         const response = await axios.post(`${baseURL}/api/events`, 
             { title, description, date, location, category }, 
             { headers: { Authorization: `Bearer ${token}` } }
@@ -41,7 +41,7 @@ export const getEvent = async (eventId) => {
 // Update an event
 export const updateEvent = async (eventId, title, description, date, location, category) => {
     try {
-        const token = localStorage.getItem('userInfo');
+        const token = localStorage.getItem('userToken');
         const response = await axios.put(`${baseURL}/api/events/${eventId}`, 
             { title, description, date, location, category },
             { headers: { Authorization: `Bearer ${token}` } }
@@ -56,7 +56,7 @@ export const updateEvent = async (eventId, title, description, date, location, c
 // Delete an event
 export const deleteEvent = async (eventId) => {
     try {
-        const token = localStorage.getItem('userInfo');
+        const token = localStorage.getItem('userToken');
         const response = await axios.delete(`${baseURL}/api/events/${eventId}`, 
             { headers: { Authorization: `Bearer ${token}` } }
         );

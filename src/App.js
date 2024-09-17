@@ -10,31 +10,28 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { getUserProfile } from './Service/authService';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
+import { UserProvider } from './context/Context';
 
 
 const App = () => {
-  const [user, setUser] = useState('');
-
-  useEffect(()=>{
-    const data = getUserProfile();
-    setUser(data);
-  },[])
-
+ 
   return (
-    <Router>
-      <Header user={user} appState={setUser}/>
-      <main className="p-4">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard/>} />
-          <Route path="/create-event" element={<ProtectedRoute  user={user}><CreateEvent /></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute  user={user}><Profile/></ProtectedRoute>} />
-          <Route path="/event/:id" element={<EventDetails />} />
-          <Route path="/login" element={<Login appState={setUser} />} />
-          <Route path="/register" element={<Register appState={setUser} />} />
-        </Routes>
-      </main>
-    </Router>
+    <UserProvider>
+      <Router>
+        <Header />
+        <main className=''>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/create-event" element={<ProtectedRoute><CreateEvent /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/event/:id" element={<EventDetails />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register/>} />
+          </Routes>
+        </main>
+      </Router>
+    </UserProvider>
   );
 };
 
