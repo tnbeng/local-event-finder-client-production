@@ -7,7 +7,6 @@ import EventDetails from './pages/EventDetails';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ProtectedRoute from './components/ProtectedRoute';
-import { getUserProfile } from './Service/authService';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import { UserProvider } from './context/Context';
