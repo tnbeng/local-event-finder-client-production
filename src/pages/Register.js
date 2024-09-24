@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Import Link
 import { login, register } from '../Service/authService';
 import { UserContext } from '../context/Context';
 
@@ -13,7 +13,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const user = await register(name,email,password);
+            const user = await register(name, email, password);
             loginUser(user);
             navigate('/');
         } catch (error) {
@@ -27,7 +27,7 @@ const Register = () => {
                 <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Register</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="mb-4">
-                        <label htmlFor="password" className="block text-gray-700 text-lg font-medium">Full Name</label>
+                        <label htmlFor="name" className="block text-gray-700 text-lg font-medium">Full Name</label>
                         <input
                             id="name"
                             type="text"
@@ -66,6 +66,12 @@ const Register = () => {
                         Register
                     </button>
                 </form>
+
+                {/* Link to the Login Page */}
+                <p className="mt-4 text-center">
+                    Already have an account? 
+                    <Link to="/login" className="text-blue-500 hover:underline"> Login here</Link>
+                </p>
             </div>
         </div>
     );

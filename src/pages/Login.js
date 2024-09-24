@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Import Link for navigation
 import { login } from '../Service/authService';
 import { UserContext } from '../context/Context';
 
@@ -54,6 +54,16 @@ const Login = () => {
             Login
           </button>
         </form>
+        {/* Links for Register and Forgot Password */}
+
+        <p className="mt-4 text-center">
+          Don't have an account?
+          <Link to="/register" className="text-blue-500 hover:underline"> Register here</Link>
+        </p>
+        
+        <p className="mt-2 text-center">
+          <Link to="/forgot-password" className="text-blue-500">Forgot your password?</Link>
+        </p>
       </div>
     </div>
   );

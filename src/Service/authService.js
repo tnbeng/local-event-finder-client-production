@@ -52,4 +52,28 @@ export const deleteOneUser = async (id) => {
 };
 
 
+export const requestPasswordReset = async (email) => {
+    try {
+        const response = await axios.post(baseURL + '/api/users/password-reset-request', { email });
+        return response.data; // Assume server returns a success message
+    } catch (error) {
+        console.error('Error requesting password reset:', error.response?.data || error.message);
+        throw error.response?.data || new Error('Failed to request password reset');
+    }
+};
+
+export const resetPassword = async (token, newPassword) => {
+    try {
+        const response = await axios.post(baseURL + `/api/users/password-reset`,{token,newPassword});
+        return response.data; 
+    } catch (error) {
+        console.error('Error resetting password:', error.response?.data || error.message);
+        throw error.response?.data || new Error('Failed to reset password');
+    }
+};
+
+
+
+
+
 

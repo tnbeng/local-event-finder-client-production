@@ -11,7 +11,6 @@ const Header = () => {
     logoutUser();
     navigate('/login');
   };
-
   const toggleMenu = () => {
     setIsOpen(!isOpen); // Toggle mobile menu
   };
@@ -52,7 +51,7 @@ const Header = () => {
           </Link>
           {user ? (
             <>
-              {user.email === 'btarak398@gmail.com' && (
+              {user.role=='admin' && (
                 <Link to="/dashboard" className="hover:bg-white hover:text-blue-600 px-4 py-2 rounded transition duration-300">
                   Dashboard
                 </Link>
@@ -94,11 +93,12 @@ const Header = () => {
             </li>
             {user ? (
               <>
-                <li>
+                {user.role==='admin' && <li>
                   <Link to="/dashboard" onClick={toggleMenu} className="hover:bg-blue-600 hover:text-white px-4 py-2 rounded transition duration-300">
                     Dashboard
                   </Link>
                 </li>
+                }
                 <li>
                   <Link to="/create-event" onClick={toggleMenu} className="hover:bg-blue-600 hover:text-white px-4 py-2 rounded transition duration-300">
                     Create Event

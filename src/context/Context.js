@@ -11,14 +11,19 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const data = await getUserProfile();
-        setUser(data);
+        const res = await getUserProfile();
+
+        setUser(user);
       } catch (error) {
         setUser(null);
       }
     };
-
-    fetchUserProfile();
+    const token=localStorage.getItem('userToken');
+    if(token)
+    {
+      fetchUserProfile();
+    }
+    
   }, []);
 
   const loginUser = (userData) => {

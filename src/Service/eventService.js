@@ -80,3 +80,14 @@ export const searchEvents = async (query) => {
         throw error; // Re-throw error to handle it in the calling function
     }
 };
+
+// Search events
+export const getEventById = async (id) => {
+    try {
+        const response = await axios.get(`${baseURL}/api/events/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error searching events:", error); // Added error handling
+        throw error; // Re-throw error to handle it in the calling function
+    }
+};
