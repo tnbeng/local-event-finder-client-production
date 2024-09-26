@@ -13,7 +13,8 @@ import { UserProvider } from './context/Context';
 import ErrorPage from './pages/ErrorPage';
 import ForgotPassword from './pages/ForgetPassword';
 import ResetPassword from './pages/ResetPassword';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
  
@@ -35,6 +36,7 @@ const App = () => {
             <Route path="*" element={<ErrorPage />} /> 
           </Routes>
         </main>
+        <ToastContainer/>
       </Router>
     </UserProvider>
   );

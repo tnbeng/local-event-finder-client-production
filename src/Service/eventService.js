@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { baseURL } from '../config';
-
+// import { baseURL } from '../config';
+const baseURL=process.env.REACT_APP_BASE_URL
 // Create a new event
 export const createEvent = async (formData) => {
     try {

@@ -3,6 +3,8 @@ import { searchEvents } from '../Service/eventService';
 import Event from '../components/Event';
 import ActionMessage from '../components/ActionMessage';
 import { FaSearch } from 'react-icons/fa';
+import {toast} from 'react-toastify';
+
 
 const Home = () => {
   const [events, setEvents] = useState([]);
@@ -10,7 +12,6 @@ const Home = () => {
   const [category, setCategory] = useState('');
   const [date, setDate] = useState('');
   const [location, setLocation] = useState('');
-  const [message, setMessage] = useState('');
 
   const fetchEvents = async () => {
     try {
@@ -23,7 +24,7 @@ const Home = () => {
       const data = await searchEvents(query);
       setEvents(data);
     } catch (err) {
-      setMessage('Error fetching events');
+      toast.error(err.message,{position:'top-right',autoClose:3000})
     }
   };
 
@@ -85,9 +86,6 @@ const Home = () => {
           />
         </div>
       </div>
-
-      {/* Error or Action Message */}
-      {message && <ActionMessage message={message} />}
 
       {/* Event List Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

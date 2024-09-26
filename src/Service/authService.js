@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { baseURL } from '../config';
+// import { baseURL } from '../config';
 
+const baseURL=process.env.REACT_APP_BASE_URL
 
 export const register = async (name, email, password) => {
     const response = await axios.post(baseURL + '/api/users/register', { name, email, password });

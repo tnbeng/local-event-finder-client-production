@@ -12,18 +12,13 @@ const UserProvider = ({ children }) => {
     const fetchUserProfile = async () => {
       try {
         const res = await getUserProfile();
-
-        setUser(user);
+        setUser(res.user);
       } catch (error) {
         setUser(null);
       }
     };
-    const token=localStorage.getItem('userToken');
-    if(token)
-    {
+    if(localStorage.getItem('userToken'))  
       fetchUserProfile();
-    }
-    
   }, []);
 
   const loginUser = (userData) => {

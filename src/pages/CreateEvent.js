@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { createEvent } from '../Service/eventService';
-
+import { toast } from 'react-toastify';
 const CreateEvent = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
     const [location, setLocation] = useState('');
     const [category, setCategory] = useState('');
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
     const [image, setImage] = useState(null);
 
     const handleImageChange = (e) => {
@@ -24,31 +22,33 @@ const CreateEvent = () => {
         formData.append('date', date);
         formData.append('location', location);
         formData.append('category', category);
-        formData.append('image', image); // Add the image file to FormData
+        formData.append('image', image);
     
         try {
             const response = await createEvent(formData); // Send form data
-            setMessage('Event created successfully!');
+            toast.success('Event created successfully!', {
+                position:'top-right',
+                autoClose: 3000,
+            });
             // Reset form fields after successful creation
-            setTitle('');
-            setDescription('');
-            setDate('');
-            setLocation('');
-            setCategory('');
-            setImage(null); // Reset the image
+            // setTitle('');
+            // setDescription('');
+            // setDate('');
+            // setLocation('');
+            // setCategory('');
+            // setImage(null);
         } catch (err) {
-            setMessage(err.response?.data?.message || 'Error creating event');
-            console.error(err);
+            toast.error(err.response?.data?.message || 'Error creating event', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
         }
     };
-    
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 flex flex-col items-center p-6">
             <div className="max-w-lg w-full bg-white bg-opacity-90 shadow-lg rounded-lg p-8">
                 <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Create New Event</h1>
-                {message && <p className="text-green-500 mb-4 text-center">{message}</p>}
-                {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label htmlFor="title" className="block text-gray-700">Title</label>
