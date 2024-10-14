@@ -133,15 +133,25 @@ const Profile = () => {
 
                 {/* Profile Section */}
                 <div className="flex items-center mb-8">
-                    <div className="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center text-white text-2xl font-bold mr-6">
-                        {/* {user.name ? user.name[0] : 'U'} */}
-                        <img src={user.imageUrl} alt='imp' />
-                    </div>
-                    <div>
-                        <h1 className="text-3xl font-bold text-gray-800 mb-2">{user.name}</h1>
-                        <p className="text-gray-600">{user.email}</p>
-                    </div>
-                </div>
+    <div className="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden mr-6">
+        {user.imageUrl ? (
+            <img 
+                src={user.imageUrl} 
+                alt='User Avatar' 
+                className="w-full h-full object-cover" 
+            />
+        ) : (
+            <span className="text-white text-2xl font-bold">
+                {user.name ? user.name[0] : 'U'}
+            </span>
+        )}
+    </div>
+    <div>
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">{user.name}</h1>
+        <p className="text-gray-600">{user.email}</p>
+    </div>
+</div>
+
 
                 <form onSubmit={updateProfile} className="bg-white p-6 rounded-lg shadow-md mb-8">
                     <h2 className="text-2xl font-semibold mb-4 text-gray-800">Update Profile</h2>
