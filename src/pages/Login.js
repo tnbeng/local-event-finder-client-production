@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom'; // Import Link for navigation
 import { login } from '../Service/authService';
 import { UserContext } from '../context/Context';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const { loginUser } = useContext(UserContext);
@@ -16,7 +17,10 @@ const Login = () => {
       loginUser(user);
       navigate('/');
     } catch (error) {
-      alert('Invalid credentials');
+      toast.error(error.response?.data?.message || "An Error occured.Please try again later", {
+        position: 'top-right',
+        autoClose: 3000,
+    });
     }
   };
 

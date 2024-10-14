@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { getUserProfile, updateProfilePicture, updateUserProfile } from '../Service/authService';
 import { deleteEvent, updateEvent } from '../Service/eventService';
 import ActionMessage from '../components/ActionMessage';
+import FullScreenSpinner from '../components/FullScreenSpinner';
+import { toast } from 'react-toastify';
 
 const Profile = () => {
     const [user, setUser] = useState({});
     const [events, setEvents] = useState([]);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [loading, setLoading] = useState(true);
-    const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
     const [editingEvent, setEditingEvent] = useState(null);
-    const [image, setImage]=useState(null);
-
+    const [image, setImage] = useState(null);
     const [eventForm, setEventForm] = useState({
         title: '',
         description: '',
@@ -20,6 +20,7 @@ const Profile = () => {
         location: '',
         category: ''
     });
+
     const [tab, setTab] = useState('events'); // New state for tab navigation
 
     useEffect(() => {
@@ -27,6 +28,7 @@ const Profile = () => {
     }, []);
 
     const fetchProfile = async () => {
+        setLoading(true);
         try {
             const data = await getUserProfile();
             setUser(data.user);
@@ -36,7 +38,7 @@ const Profile = () => {
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            setMessage('Error occurred while fetching profile data');
+            errorMessage('Error occurred while fetching profile data');
             console.error(error);
         }
     };
@@ -44,26 +46,30 @@ const Profile = () => {
         setImage(e.target.files[0]);
     };
     const updateProfile = async (e) => {
+        setLoading(true);
         e.preventDefault();
         try {
             const data = await updateUserProfile(name, email, image);
             // setUser(data.user);
             fetchProfile();
-            setMessage('Profile updated successfully');
+            successMessage('Profile updated successfully');
+            setLoading(false)
         } catch (error) {
-            setMessage('Error updating profile');
-            console.error(error);
+            errorMessage('Error updating profile');
+            setLoading(false)
         }
     };
 
     const handleDeleteEvent = async (eventId) => {
+        setLoading(true);
         try {
             await deleteEvent(eventId);
             setEvents(events.filter(event => event._id !== eventId));
-            setMessage('Event deleted successfully');
+            successMessage('Event deleted successfully');
+            setLoading(false)
         } catch (error) {
-            setMessage('Error deleting event');
-            console.error(error);
+            errorMessage('Error deleting event');
+            setLoading(false);
         }
     };
 
@@ -80,6 +86,7 @@ const Profile = () => {
     };
 
     const handleUpdateEvent = async (e) => {
+        setLoading(true);
         e.preventDefault();
         try {
             const updatedEvent = await updateEvent(
@@ -91,13 +98,14 @@ const Profile = () => {
                 eventForm.category
             );
             setEvents(events.map((event) => (event._id === editingEvent ? updatedEvent : event)));
-            setMessage('Event updated successfully');
+            successMessage('Event updated successfully');
             setEditingEvent(null);
             setEventForm({ title: '', description: '', date: '', location: '', category: '' });
             setTab('events'); // Switch back to events tab
+            setLoading(false)
         } catch (error) {
-            setMessage('Error updating event');
-            console.error(error);
+            errorMessage('Error updating event');
+            setLoading(false);
         }
     };
 
@@ -105,13 +113,23 @@ const Profile = () => {
         const { name, value } = e.target;
         setEventForm((prevForm) => ({ ...prevForm, [name]: value }));
     };
-
-    if (loading) return <p className="text-center text-gray-500">Loading...</p>;
-
+    
+    const successMessage=(message)=>{
+        toast.success(message, {
+            position: 'top-right',
+            autoClose: 3000,
+        });
+    }
+    const errorMessage=(message)=>{
+        toast.error(message, {
+            position: 'top-right',
+            autoClose: 3000,
+        });
+    }
     return (
         <div className="min-h-screen bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 p-6">
+            {loading && <FullScreenSpinner/>}
             <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
-                {message && <ActionMessage message={message} setMessage={setMessage} />}
 
                 {/* Profile Section */}
                 <div className="flex items-center mb-8">
@@ -124,7 +142,7 @@ const Profile = () => {
                         <p className="text-gray-600">{user.email}</p>
                     </div>
                 </div>
-               
+
                 <form onSubmit={updateProfile} className="bg-white p-6 rounded-lg shadow-md mb-8">
                     <h2 className="text-2xl font-semibold mb-4 text-gray-800">Update Profile</h2>
                     <div className="mb-4">
@@ -164,7 +182,7 @@ const Profile = () => {
                         />
                     </div>
                     <div className="flex justify-end">
-                        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
+                        <button  type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
                             Update Profile
                         </button>
                     </div>
@@ -207,7 +225,7 @@ const Profile = () => {
                                                 Edit
                                             </button>
                                             <button onClick={() => handleDeleteEvent(event._id)} className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200">
-                                                Delete
+                                               Delete
                                             </button>
                                         </div>
                                     </li>
@@ -275,7 +293,7 @@ const Profile = () => {
                                 </div>
                                 <div className="flex justify-between">
                                     <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
-                                        Update Event
+                                        Update
                                     </button>
                                     <button
                                         type="button"
@@ -295,4 +313,3 @@ const Profile = () => {
 };
 
 export default Profile;
-

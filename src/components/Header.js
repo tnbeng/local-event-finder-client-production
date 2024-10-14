@@ -63,14 +63,6 @@ const Header = () => {
 
       // Listen for new notifications
       socket.on('newNotification', (newNotifications) => {
-        // Handle case when the server sends multiple notifications
-        // if (Array.isArray(newNotifications)) {
-        //   setNotifications((prevNotifications) => [...prevNotifications, ...newNotifications]);
-        //   setUnreadCount((prevCount) => prevCount + newNotifications.length);
-        // } else {
-        //   setNotifications((prevNotifications) => [...prevNotifications, newNotifications]);
-        //   setUnreadCount((prevCount) => prevCount + 1);
-        // }
         fetchNotifications(); //if new notification is create i will fetch all notification again to see any update 
       });
 
@@ -85,7 +77,7 @@ const Header = () => {
   }, [user]);
 
   return (
-    <header className="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 p-4 text-white shadow-lg">
+    <header className="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 p-4 text-white shadow-lg sticky top-0 w-full z-10">
       <div className="flex justify-between items-center max-w-7xl mx-auto">
         <div className="text-2xl font-extrabold tracking-tight">
           <Link to="/" className="hover:text-gray-300 transition duration-300">Local Event Finder</Link>

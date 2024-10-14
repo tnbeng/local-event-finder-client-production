@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { deleteOneUser, getAllUser } from '../Service/authService';
 import { deleteEvent, searchEvents } from '../Service/eventService';
+import FullScreenSpinner from '../components/FullScreenSpinner';
 
 const Dashboard = () => {
     const [users, setUsers] = useState([]);
     const [events, setEvents] = useState([]);
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         fetchAllUsers();
@@ -22,19 +24,23 @@ const Dashboard = () => {
     };
 
     const deleteUser = async (id) => {
+        setLoading(true)
         await deleteOneUser(id);
         fetchAllUsers();
+        setLoading(false)
     };
 
     const deleteEventFun = async (id) => {
+        setLoading(true)
         await deleteEvent(id);
         fetchAllEvents();
+        setLoading(false)
     };
 
     return (
         <div className="p-8 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen flex flex-col items-center">
             <h1 className="text-5xl font-bold text-white mb-10 text-center">Admin Dashboard</h1>
-
+            {loading && <FullScreenSpinner/>}
             <div className="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Manage Events */}
                 <div className="bg-white rounded-xl shadow-xl p-6 transform transition duration-500 hover:scale-105">

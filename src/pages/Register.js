@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom'; // Import Link
 import { login, register } from '../Service/authService';
 import { UserContext } from '../context/Context';
+import { toast } from 'react-toastify';
 
 const Register = () => {
     const { loginUser } = useContext(UserContext);
@@ -10,14 +11,19 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const user = await register(name, email, password);
             loginUser(user);
-            navigate('/');
+            navigate('/login');
         } catch (error) {
-            alert(error.message);
+            toast.error(error.response?.data?.message || "An Error occured.Please try again later", {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+
         }
     };
 
@@ -69,7 +75,7 @@ const Register = () => {
 
                 {/* Link to the Login Page */}
                 <p className="mt-4 text-center">
-                    Already have an account? 
+                    Already have an account?
                     <Link to="/login" className="text-blue-500 hover:underline"> Login here</Link>
                 </p>
             </div>

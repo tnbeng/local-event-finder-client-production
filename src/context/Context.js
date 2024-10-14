@@ -30,6 +30,7 @@ const UserProvider = ({ children }) => {
     localStorage.removeItem("userToken");
   };
 
+
   return (
     <UserContext.Provider value={{ user, loginUser, logoutUser }}>
       {children}

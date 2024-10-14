@@ -42,11 +42,11 @@ export const getEvent = async (eventId) => {
 };
 
 // Update an event
-export const updateEvent = async (eventId, title, description, date, location, category) => {
+export const updateEvent = async (eventId, title, description, date, location, category,image) => {
     try {
         const token = localStorage.getItem('userToken');
         const response = await axios.put(`${baseURL}/api/events/${eventId}`, 
-            { title, description, date, location, category },
+            { title, description, date, location, category,image },
             { headers: { Authorization: `Bearer ${token}` } }
         );
         return response.data;

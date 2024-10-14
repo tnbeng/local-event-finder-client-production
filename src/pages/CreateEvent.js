@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createEvent } from '../Service/eventService';
 import { toast } from 'react-toastify';
+
 const CreateEvent = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -8,40 +9,43 @@ const CreateEvent = () => {
     const [location, setLocation] = useState('');
     const [category, setCategory] = useState('');
     const [image, setImage] = useState(null);
-
+    const [loading, setLoading] = useState(false)
     const handleImageChange = (e) => {
         setImage(e.target.files[0]);
     };
 
     const handleSubmit = async (e) => {
+        setLoading(true)
         e.preventDefault();
         const formData = new FormData();
-    
+
         formData.append('title', title);
         formData.append('description', description);
         formData.append('date', date);
         formData.append('location', location);
         formData.append('category', category);
         formData.append('image', image);
-    
+
         try {
             const response = await createEvent(formData); // Send form data
             toast.success('Event created successfully!', {
-                position:'top-right',
+                position: 'top-right',
                 autoClose: 3000,
             });
             // Reset form fields after successful creation
-            // setTitle('');
-            // setDescription('');
-            // setDate('');
-            // setLocation('');
-            // setCategory('');
-            // setImage(null);
+            setTitle('');
+            setDescription('');
+            setDate('');
+            setLocation('');
+            setCategory('');
+            setImage(null);
+            setLoading(false)
         } catch (err) {
             toast.error(err.response?.data?.message || 'Error creating event', {
                 position: 'top-right',
                 autoClose: 3000,
             });
+            setLoading(false);
         }
     };
 
@@ -115,11 +119,27 @@ const CreateEvent = () => {
                         />
                     </div>
                     <button
+                        disabled={loading}
                         type="submit"
-                        className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white p-3 rounded-lg shadow-lg hover:from-blue-600 hover:to-purple-700 transition"
+                        className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white p-3 rounded-lg shadow-lg hover:from-blue-600 hover:to-purple-700 transition flex items-center justify-center"
                     >
-                        Create Event
+                        {loading ? (
+                            <>
+                                <svg
+                                    className="animate-spin h-5 w-5 mr-2 text-white"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                </svg>
+                            </>
+                        ) : (
+                            "Create Event"
+                        )}
                     </button>
+
                 </form>
             </div>
         </div>
